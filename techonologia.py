@@ -17,69 +17,6 @@ st.markdown("""
 .stApp { background: #F5F0E8 !important; font-family: 'Inter', sans-serif; }
 .block-container { padding-top: 0; padding-bottom: 2rem; max-width: 100%; }
 
-.full-header {
-    background: #F5F0E8;
-    width: 100%;
-    padding: 1.8rem 4rem 1.4rem 4rem;
-    border-bottom: 1px solid #E8E0D4;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-}
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.untangle {
-    width: 120px;
-    height: 36px;
-    opacity: 0.8;
-}
-.brand {
-    font-family: 'Manrope', sans-serif;
-    font-size: 3.2rem;
-    font-weight: 800;
-    color: #1A2744;
-    letter-spacing: -1px;
-    margin: 0;
-    line-height: 1;
-}
-.brand-dot {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    background: #E85D04;
-    border-radius: 50%;
-    margin-left: 6px;
-    vertical-align: middle;
-}
-.header-right {
-    text-align: right;
-    border-left: 1px solid #D4CBBC;
-    padding-left: 1.5rem;
-}
-.hindi-tag {
-    font-family: 'Manrope', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #1A2744;
-    margin: 0;
-}
-.eng-tag {
-    font-size: 0.72rem;
-    letter-spacing: 1.5px;
-    color: #1A2744;
-    margin-top: 4px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-.eng-tag span {
-    color: #E85D04;
-    margin-right: 4px;
-}
-
 h1, h2, h3, .stSubheader {
     font-family: 'Manrope', sans-serif !important;
     color: #1A2744 !important;
@@ -94,13 +31,17 @@ h1, h2, h3, .stSubheader {
     font-weight: 600;
     font-family: 'Inter', sans-serif;
     border: none;
+    transition: all 0.2s ease;
 }
 .stButton > button[kind="primary"] {
     background: #1A2744 !important;
     color: #F5F0E8 !important;
 }
 .stButton > button[kind="primary"]:hover {
-    background: #2C3E5A !important;
+    background: #315EFB !important;
+    color: #FFFFFF !important;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px rgba(49, 94, 251, 0.6);
+    box-shadow: 0 0 20px rgba(49, 94, 251, 0.4);
 }
 .stButton > button:not([kind="primary"]) {
     background: transparent !important;
@@ -108,8 +49,11 @@ h1, h2, h3, .stSubheader {
     border: 1.5px solid #1A2744 !important;
 }
 .stButton > button:not([kind="primary"]):hover {
-    background: #1A2744 !important;
-    color: #F5F0E8 !important;
+    background: #315EFB !important;
+    color: #FFFFFF !important;
+    border-color: #315EFB !important;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px rgba(49, 94, 251, 0.6);
+    box-shadow: 0 0 20px rgba(49, 94, 251, 0.4);
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] {
@@ -129,25 +73,12 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     box-shadow: 0 0 0 2px rgba(26, 39, 68, 0.1);
 }
 
-.main-content { padding: 0 4rem; }
+.main-content { padding: 0 3rem; }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="full-header">
-    <div class="header-left">
-        <svg class="untangle" viewBox="0 0 160 48" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 24 C 16 6, 22 40, 36 24 S 52 4, 66 24 S 84 42, 98 24 S 116 8, 132 22 S 146 36, 156 20" 
-                  fill="none" stroke="#1A2744" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <div class="brand">सरल IT<span class="brand-dot"></span></div>
-    </div>
-    <div class="header-right">
-        <div class="hindi-tag">तकनीक, अब सरल।</div>
-        <div class="eng-tag"><span>■</span> Technology, made simple.</div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+st.image("banner.png", use_container_width=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
