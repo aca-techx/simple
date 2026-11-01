@@ -8,101 +8,148 @@ load_dotenv()
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL = "gemini-3.5-flash-lite"
 
-st.set_page_config(page_title="Saral IT", page_icon="📄", layout="centered")
+st.set_page_config(page_title="Saral IT", page_icon="📄", layout="wide")
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&display=swap');
 
-.stApp { background: #111827 !important; font-family: 'Inter', sans-serif; }
-.block-container { padding-top: 1.2rem; padding-bottom: 2.5rem; max-width: 700px; }
+.stApp { background: #F5F0E8 !important; font-family: 'Inter', sans-serif; }
+.block-container { padding-top: 0; padding-bottom: 2rem; max-width: 100%; }
 
-.header-bar {
-    background: #0B1220;
-    border: 1px solid #1F2937;
-    padding: 1.5rem 1.7rem;
-    border-radius: 16px;
+.full-header {
+    background: #F5F0E8;
+    width: 100%;
+    padding: 1.8rem 4rem 1.4rem 4rem;
+    border-bottom: 1px solid #E8E0D4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 1.5rem;
 }
-.header-title {
-    font-family: 'Manrope', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin: 0;
-    letter-spacing: -0.8px;
-    color: #F8FAFC;
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
-.header-title span { color: #C8F169; }
-.header-tag {
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-    margin-top: 6px;
-    color: #94A3B8;
-    font-weight: 500;
+.untangle {
+    width: 120px;
+    height: 36px;
+    opacity: 0.8;
+}
+.brand {
+    font-family: 'Manrope', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: #1A2744;
+    letter-spacing: -1px;
+    margin: 0;
+    line-height: 1;
+}
+.brand-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #E85D04;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+.header-right {
+    text-align: right;
+    border-left: 1px solid #D4CBBC;
+    padding-left: 1.5rem;
+}
+.hindi-tag {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1A2744;
+    margin: 0;
+}
+.eng-tag {
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    color: #1A2744;
+    margin-top: 4px;
+    font-weight: 600;
     text-transform: uppercase;
+}
+.eng-tag span {
+    color: #E85D04;
+    margin-right: 4px;
 }
 
 h1, h2, h3, .stSubheader {
     font-family: 'Manrope', sans-serif !important;
-    color: #F8FAFC !important;
+    color: #1A2744 !important;
     font-weight: 700 !important;
 }
-.stMarkdown, p, label, .stRadio label { color: #F8FAFC !important; }
-.stCaption { color: #94A3B8 !important; font-size: 0.84rem; }
+.stMarkdown, p, label, .stRadio label { color: #1A2744 !important; }
+.stCaption { color: #5C5346 !important; }
 
 .stButton > button {
-    border-radius: 9px;
+    border-radius: 8px;
     height: 46px;
     font-weight: 600;
-    font-size: 0.95rem;
     font-family: 'Inter', sans-serif;
     border: none;
 }
 .stButton > button[kind="primary"] {
-    background: #315EFB !important;
-    color: #FFFFFF !important;
+    background: #1A2744 !important;
+    color: #F5F0E8 !important;
 }
 .stButton > button[kind="primary"]:hover {
-    background: #2449D8 !important;
+    background: #2C3E5A !important;
 }
 .stButton > button:not([kind="primary"]) {
-    background: #1F2937 !important;
-    color: #F8FAFC !important;
-    border: 1px solid #374151 !important;
+    background: transparent !important;
+    color: #1A2744 !important;
+    border: 1.5px solid #1A2744 !important;
 }
 .stButton > button:not([kind="primary"]):hover {
-    border-color: #315EFB !important;
-    color: #315EFB !important;
+    background: #1A2744 !important;
+    color: #F5F0E8 !important;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] {
-    background: #1F2937 !important;
-    border: 1px solid #374151 !important;
-    border-radius: 14px;
+    background: #FFFFFF;
+    border: 1px solid #E8E0D4;
+    border-radius: 12px;
 }
 
 .stTextArea textarea {
-    background: #1F2937 !important;
-    border: 1px solid #374151 !important;
+    background: #FFFFFF !important;
+    border: 1px solid #D4CBBC !important;
     border-radius: 8px !important;
-    color: #F8FAFC !important;
-    font-family: 'Inter', sans-serif;
+    color: #1A2744 !important;
 }
 .stTextArea textarea:focus {
-    border-color: #315EFB !important;
-    box-shadow: 0 0 0 3px rgba(49, 94, 251, 0.15);
+    border-color: #1A2744 !important;
+    box-shadow: 0 0 0 2px rgba(26, 39, 68, 0.1);
 }
 
-.stExpander { border: 1px solid #374151 !important; border-radius: 10px; }
+.main-content { padding: 0 4rem; }
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<div class="header-bar">
-    <div class="header-title">Saral <span>IT</span></div>
-    <div class="header-tag">Legal document clarity · Simple · Precise</div>
+<div class="full-header">
+    <div class="header-left">
+        <svg class="untangle" viewBox="0 0 160 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 24 C 16 6, 22 40, 36 24 S 52 4, 66 24 S 84 42, 98 24 S 116 8, 132 22 S 146 36, 156 20" 
+                  fill="none" stroke="#1A2744" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="brand">सरल IT<span class="brand-dot"></span></div>
+    </div>
+    <div class="header-right">
+        <div class="hindi-tag">तकनीक, अब सरल।</div>
+        <div class="eng-tag"><span>■</span> Technology, made simple.</div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
+
+st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
 lang_choice = st.radio("Language / भाषा", ["English", "हिंदी"], horizontal=True)
 is_hindi = lang_choice == "हिंदी"
@@ -350,6 +397,8 @@ if "doc" in st.session_state and st.session_state.get("mode_result"):
     if st.session_state.get("chat") and st.button("Clear chat" if not is_hindi else "चैट साफ करें"):
         st.session_state.chat = []
         st.rerun()
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 st.divider()
 st.caption("For understanding only · Not official advice" if not is_hindi else "केवल समझने के लिए · आधिकारिक सलाह नहीं")
