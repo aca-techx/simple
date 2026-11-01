@@ -15,7 +15,18 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&display=swap');
 
 .stApp { background: #F5F0E8 !important; font-family: 'Inter', sans-serif; }
-.block-container { padding-top: 0; padding-bottom: 2rem; max-width: 100%; }
+.block-container { padding-top: 1.2rem; padding-bottom: 2rem; max-width: 100%; }
+
+.banner-full {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    margin-bottom: 1.5rem;
+}
+.banner-full img {
+    width: 100%;
+    display: block;
+}
 
 h1, h2, h3, .stSubheader {
     font-family: 'Manrope', sans-serif !important;
@@ -77,8 +88,9 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown('<div class="banner-full">', unsafe_allow_html=True)
 st.image("banner.png", use_container_width=True)
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
