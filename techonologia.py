@@ -205,9 +205,9 @@ with st.container(border=True):
     st.subheader(labels["add_doc"])
 
     with st.expander("Try an example" if not is_hindi else "उदाहरण देखें"):
-        c1, c2, c3 = st.columns(3)
+        cols = st.columns(4)
         for i, (name, txt) in enumerate(EXAMPLES.items()):
-            with [c1, c2, c3][i]:
+            with cols[i]:
                 if st.button(name.split()[0], use_container_width=True, key=f"ex{i}"):
                     st.session_state.example = txt
                     st.rerun()
