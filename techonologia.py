@@ -15,37 +15,20 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .stApp { background: #F5F0E8 !important; font-family: 'Inter', sans-serif; }
-.block-container { padding-top: 1rem; padding-bottom: 3rem; max-width: 920px; }
+.block-container { padding-top: 1rem; padding-bottom: 3rem; max-width: 900px; }
 
 .banner-full {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
-    margin-bottom: 2rem;
+    margin-bottom: 1.8rem;
 }
 .banner-full img { width: 100%; display: block; }
-
-.section-card {
-    background: #FFFFFF;
-    border: 1px solid #E8E0D4;
-    border-radius: 16px;
-    padding: 1.6rem 1.8rem;
-    margin-bottom: 1.4rem;
-    box-shadow: 0 1px 3px rgba(26, 39, 68, 0.04);
-}
-.section-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #1A2744;
-    margin: 0 0 1rem 0;
-    letter-spacing: -0.2px;
-}
 
 .stButton > button {
     border-radius: 10px;
     height: 48px;
     font-weight: 600;
-    font-size: 0.98rem;
     transition: all 0.2s ease;
 }
 .stButton > button[kind="primary"] {
@@ -68,17 +51,17 @@ st.markdown("""
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] {
-    background: #FAF8F5;
+    background: #FFFFFF;
     border: 1px solid #E8E0D4;
-    border-radius: 12px;
+    border-radius: 16px;
+    padding: 0.4rem;
 }
 
 .stTextArea textarea {
     border-radius: 10px !important;
     border: 1px solid #D4CBBC !important;
-    background: #FFFFFF !important;
 }
-.stCaption { color: #6B6358 !important; font-size: 0.84rem; }
+.stCaption { color: #6B6358 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -207,43 +190,40 @@ Answer:"""
     r = client.models.generate_content(model=MODEL, contents=prompt)
     return r.text.strip()
 
-# --- Input Section ---
-st.markdown('<div class="section-card">', unsafe_allow_html=True)
-st.markdown(f'<div class="section-title">{labels["add_doc"]}</div>', unsafe_allow_html=True)
+# Input section
+with st.container(border=True):
+    st.subheader(labels["add_doc"])
 
-with st.expander("Try an example" if not is_hindi else "उदाहरण देखें"):
-    c1, c2, c3 = st.columns(3)
-    for i, (name, txt) in enumerate(EXAMPLES.items()):
-        with [c1, c2, c3][i]:
-            if st.button(name.split()[0], use_container_width=True, key=f"ex{i}"):
-                st.session_state.example = txt
-                st.rerun()
+    with st.expander("Try an example" if not is_hindi else "उदाहरण देखें"):
+        c1, c2, c3 = st.columns(3)
+        for i, (name, txt) in enumerate(EXAMPLES.items()):
+            with [c1, c2, c3][i]:
+                if st.button(name.split()[0], use_container_width=True, key=f"ex{i}"):
+                    st.session_state.example = txt
+                    st.rerun()
 
-method = st.radio("Input", [labels["paste"], labels["upload"]], horizontal=True, label_visibility="collapsed")
+    method = st.radio("Input", [labels["paste"], labels["upload"]], horizontal=True, label_visibility="collapsed")
 
-text = ""
-if method == labels["paste"]:
-    text = st.text_area(
-        "text",
-        value=st.session_state.get("example", ""),
-        height=150,
-        placeholder=labels["paste_here"],
-        label_visibility="collapsed"
-    )
-else:
-    f = st.file_uploader("file", type=["pdf", "txt"], label_visibility="collapsed")
-    if f:
-        text = extract_text_from_pdf(f) if f.type == "application/pdf" else f.read().decode("utf-8", errors="ignore")
-        if text:
-            st.success("Loaded" if not is_hindi else "लोड हो गया")
+    text = ""
+    if method == labels["paste"]:
+        text = st.text_area(
+            "text",
+            value=st.session_state.get("example", ""),
+            height=150,
+            placeholder=labels["paste_here"],
+            label_visibility="collapsed"
+        )
+    else:
+        f = st.file_uploader("file", type=["pdf", "txt"], label_visibility="collapsed")
+        if f:
+            text = extract_text_from_pdf(f) if f.type == "application/pdf" else f.read().decode("utf-8", errors="ignore")
+            if text:
+                st.success("Loaded" if not is_hindi else "लोड हो गया")
 
-if text.strip():
-    st.caption(f"{len(text):,} characters")
+    if text.strip():
+        st.caption(f"{len(text):,} characters")
 
-st.markdown('</div>', unsafe_allow_html=True)
-
-# --- Action Buttons ---
-st.markdown('<div class="section-card">', unsafe_allow_html=True)
+# Actions
 b1, b2 = st.columns(2)
 with b1:
     do_saral = st.button(labels["simplify_btn"], type="primary", use_container_width=True, disabled=not text.strip())
@@ -254,7 +234,6 @@ if st.button(labels["reset"], use_container_width=True):
     for k in list(st.session_state.keys()):
         del st.session_state[k]
     st.rerun()
-st.markdown('</div>', unsafe_allow_html=True)
 
 out_lang = labels["output_lang"]
 
@@ -280,59 +259,55 @@ if do_analyse and text.strip():
         except Exception as e:
             st.error(str(e))
 
-# --- Results ---
+# Results
 if st.session_state.get("mode_result") == "saral" and "simplified" in st.session_state:
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown(f'<div class="section-title">{labels["simplified"]}</div>', unsafe_allow_html=True)
-    st.markdown(st.session_state.simplified)
-    st.caption(labels["disclaimer"])
-    st.download_button(labels["download"], st.session_state.simplified, "simplified.txt", "text/plain", use_container_width=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    with st.container(border=True):
+        st.subheader(labels["simplified"])
+        st.markdown(st.session_state.simplified)
+        st.caption(labels["disclaimer"])
+        st.download_button(labels["download"], st.session_state.simplified, "simplified.txt", "text/plain", use_container_width=True)
 
 if st.session_state.get("mode_result") == "analyse" and "analyse_parts" in st.session_state:
     p = st.session_state.analyse_parts
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown(f'<div class="section-title">{labels["what_wrong"]}</div>', unsafe_allow_html=True)
-    st.warning(p.get("wrong") or "—")
-    st.markdown(f'<div class="section-title">{labels["missing"]}</div>', unsafe_allow_html=True)
-    st.info(p.get("missing") or "—")
-    st.caption(labels["disclaimer"])
-    dl = f"{labels['what_wrong']}\n{p.get('wrong','')}\n\n{labels['missing']}\n{p.get('missing','')}"
-    st.download_button(labels["download"], dl, "analysis.txt", "text/plain", use_container_width=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    with st.container(border=True):
+        st.subheader(labels["what_wrong"])
+        st.warning(p.get("wrong") or "—")
+        st.subheader(labels["missing"])
+        st.info(p.get("missing") or "—")
+        st.caption(labels["disclaimer"])
+        dl = f"{labels['what_wrong']}\n{p.get('wrong','')}\n\n{labels['missing']}\n{p.get('missing','')}"
+        st.download_button(labels["download"], dl, "analysis.txt", "text/plain", use_container_width=True)
 
-# --- Chat ---
+# Chat
 if "doc" in st.session_state and st.session_state.get("mode_result"):
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown(f'<div class="section-title">{labels["ask"]}</div>', unsafe_allow_html=True)
+    with st.container(border=True):
+        st.subheader(labels["ask"])
 
-    if "chat" not in st.session_state:
-        st.session_state.chat = []
+        if "chat" not in st.session_state:
+            st.session_state.chat = []
 
-    for m in st.session_state.chat:
-        with st.chat_message(m["role"]):
-            st.write(m["content"])
+        for m in st.session_state.chat:
+            with st.chat_message(m["role"]):
+                st.write(m["content"])
 
-    if msg := st.chat_input(labels["ask_placeholder"]):
-        st.session_state.chat.append({"role": "user", "content": msg})
-        with st.chat_message("user"):
-            st.write(msg)
+        if msg := st.chat_input(labels["ask_placeholder"]):
+            st.session_state.chat.append({"role": "user", "content": msg})
+            with st.chat_message("user"):
+                st.write(msg)
 
-        context = st.session_state.get("simplified", "") if st.session_state.mode_result == "saral" else st.session_state.get("analyse_raw", "")
-        with st.chat_message("assistant"):
-            with st.spinner("Checking..." if not is_hindi else "जांच रहे हैं..."):
-                try:
-                    ans = answer_from_document(st.session_state.doc, context, st.session_state.chat, msg)
-                    st.write(ans)
-                    st.session_state.chat.append({"role": "assistant", "content": ans})
-                except Exception as e:
-                    st.error(str(e))
+            context = st.session_state.get("simplified", "") if st.session_state.mode_result == "saral" else st.session_state.get("analyse_raw", "")
+            with st.chat_message("assistant"):
+                with st.spinner("Checking..." if not is_hindi else "जांच रहे हैं..."):
+                    try:
+                        ans = answer_from_document(st.session_state.doc, context, st.session_state.chat, msg)
+                        st.write(ans)
+                        st.session_state.chat.append({"role": "assistant", "content": ans})
+                    except Exception as e:
+                        st.error(str(e))
 
-    if st.session_state.get("chat") and st.button("Clear chat" if not is_hindi else "चैट साफ करें"):
-        st.session_state.chat = []
-        st.rerun()
-
-    st.markdown('</div>', unsafe_allow_html=True)
+        if st.session_state.get("chat") and st.button("Clear chat" if not is_hindi else "चैट साफ करें"):
+            st.session_state.chat = []
+            st.rerun()
 
 st.divider()
 st.caption("For understanding only · Not official advice" if not is_hindi else "केवल समझने के लिए · आधिकारिक सलाह नहीं")
