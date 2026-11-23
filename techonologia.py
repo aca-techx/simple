@@ -89,23 +89,33 @@ labels = {
     "ask": "Ask about this notice" if not is_hindi else "इस नोटिस के बारे में पूछें",
     "ask_placeholder": "Ask about dates, documents, or what to do..." if not is_hindi else "तारीख, दस्तावेज़ या क्या करना है पूछें..."
 }
-
 EXAMPLES = {
-    "School Scholarship": """Scholarship Notice
-Applications are invited from students of Class 9 to 12 for the National Means-cum-Merit Scholarship.
-Last date to apply online: 30 November 2026.
-Required documents: Aadhaar card, previous year marksheet, income certificate, bank passbook.
-Apply only on the official portal. Incomplete applications will be rejected.""",
+    "School Scholarship": """National Means-cum-Merit Scholarship 2026-27
+Applications are invited from students studying in Class 9 to Class 12 in recognized schools.
+Eligibility: Family annual income should not exceed ₹3,50,000. Student must have secured at least 55% in the previous class.
+Last date for online application: 30 November 2026.
+Required documents: Aadhaar card of student, previous year marksheet, income certificate issued by competent authority, bank passbook (first page) with IFSC code.
+Apply only through the official portal. Applications submitted after the last date or with incomplete documents will not be considered.
+For queries, contact the school scholarship in-charge.""",
 
-    "Municipal Notice": """Public Notice
-Water supply in Ward 7 will be stopped on 18 November 2026 from 9:00 AM to 5:00 PM for pipeline repair.
-Please store water in advance.
-Contact the ward office between 10 AM and 5 PM for any issues.""",
+    "Municipal Water Notice": """Public Notice – Water Supply Interruption
+Due to urgent pipeline repair work, water supply in Ward No. 7 and Ward No. 8 will remain suspended on 18 November 2026 from 8:00 AM to 6:00 PM.
+Residents are advised to store sufficient water in advance.
+In case of emergency, contact the Ward Office between 10:00 AM and 5:00 PM.
+Note: Water tankers will be available at the community hall only if demand is high. Priority will be given to households with medical needs.""",
 
-    "PM-KISAN": """PM-KISAN Update
-Eligible farmers can check installment status on the PM-KISAN portal.
-Next installment expected in December 2026.
-Make sure Aadhaar and bank account are linked. Visit nearest CSC or agriculture office for help.""",
+    "PM-KISAN Status": """PM-KISAN Installment Update
+Eligible farmers can check the status of their next installment on the official PM-KISAN portal.
+The installment for the current period is expected to be credited in December 2026.
+Farmers are requested to ensure that their Aadhaar number and bank account are correctly linked and that e-KYC is completed.
+For any discrepancy, visit the nearest Common Service Centre (CSC) or the Agriculture Office of your block.
+Incomplete or mismatched details may lead to delay or rejection of the installment.""",
+
+    "Ration Card Update": """Notice for Ration Card Correction
+All beneficiaries are informed that the last date for correction of name, address, or family member details in the ration card is 15 December 2026.
+Corrections can be done online or at the nearest ration office.
+Documents required: Aadhaar card of head of family, existing ration card, and proof of address (electricity bill or rent agreement).
+Applications with unclear documents or missing signatures will be rejected. No extension will be given after the last date.""",
 }
 
 def extract_text_from_pdf(file):
