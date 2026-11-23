@@ -12,79 +12,73 @@ st.set_page_config(page_title="Saral IT", page_icon="📄", layout="wide")
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .stApp { background: #F5F0E8 !important; font-family: 'Inter', sans-serif; }
-.block-container { padding-top: 1.2rem; padding-bottom: 2rem; max-width: 100%; }
+.block-container { padding-top: 1rem; padding-bottom: 3rem; max-width: 920px; }
 
 .banner-full {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
-.banner-full img {
-    width: 100%;
-    display: block;
-}
+.banner-full img { width: 100%; display: block; }
 
-h1, h2, h3, .stSubheader {
-    font-family: 'Manrope', sans-serif !important;
-    color: #1A2744 !important;
-    font-weight: 700 !important;
+.section-card {
+    background: #FFFFFF;
+    border: 1px solid #E8E0D4;
+    border-radius: 16px;
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 1.4rem;
+    box-shadow: 0 1px 3px rgba(26, 39, 68, 0.04);
 }
-.stMarkdown, p, label, .stRadio label { color: #1A2744 !important; }
-.stCaption { color: #5C5346 !important; }
+.section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1A2744;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.2px;
+}
 
 .stButton > button {
-    border-radius: 8px;
-    height: 46px;
+    border-radius: 10px;
+    height: 48px;
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
-    border: none;
+    font-size: 0.98rem;
     transition: all 0.2s ease;
 }
 .stButton > button[kind="primary"] {
     background: #1A2744 !important;
-    color: #F5F0E8 !important;
+    color: #FFFFFF !important;
 }
 .stButton > button[kind="primary"]:hover {
     background: #315EFB !important;
-    color: #FFFFFF !important;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px rgba(49, 94, 251, 0.6);
-    box-shadow: 0 0 20px rgba(49, 94, 251, 0.4);
+    box-shadow: 0 4px 14px rgba(49, 94, 251, 0.3);
 }
 .stButton > button:not([kind="primary"]) {
-    background: transparent !important;
+    background: #FFFFFF !important;
     color: #1A2744 !important;
-    border: 1.5px solid #1A2744 !important;
+    border: 1.5px solid #D4CBBC !important;
 }
 .stButton > button:not([kind="primary"]):hover {
     background: #315EFB !important;
-    color: #FFFFFF !important;
+    color: white !important;
     border-color: #315EFB !important;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px rgba(49, 94, 251, 0.6);
-    box-shadow: 0 0 20px rgba(49, 94, 251, 0.4);
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] {
-    background: #FFFFFF;
+    background: #FAF8F5;
     border: 1px solid #E8E0D4;
     border-radius: 12px;
 }
 
 .stTextArea textarea {
-    background: #FFFFFF !important;
+    border-radius: 10px !important;
     border: 1px solid #D4CBBC !important;
-    border-radius: 8px !important;
-    color: #1A2744 !important;
+    background: #FFFFFF !important;
 }
-.stTextArea textarea:focus {
-    border-color: #1A2744 !important;
-    box-shadow: 0 0 0 2px rgba(26, 39, 68, 0.1);
-}
-
-.main-content { padding: 0 3rem; }
+.stCaption { color: #6B6358 !important; font-size: 0.84rem; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -92,18 +86,13 @@ st.markdown('<div class="banner-full">', unsafe_allow_html=True)
 st.image("banner.png", use_container_width=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="main-content">', unsafe_allow_html=True)
-
 lang_choice = st.radio("Language / भाषा", ["English", "हिंदी"], horizontal=True)
 is_hindi = lang_choice == "हिंदी"
 
 labels = {
-    "subtitle": "Turn official notices into clear language, or analyse what is missing." if not is_hindi else "आधिकारिक नोटिस को सरल भाषा में बदलें, या जानें क्या जानकारी गायब है।",
-    "mode_saral": "Saral-it" if not is_hindi else "सरल करें",
-    "mode_analyse": "Analyse" if not is_hindi else "विश्लेषण",
     "add_doc": "Document" if not is_hindi else "दस्तावेज़",
-    "paste": "Paste" if not is_hindi else "पेस्ट",
-    "upload": "Upload" if not is_hindi else "अपलोड",
+    "paste": "Paste text" if not is_hindi else "पेस्ट करें",
+    "upload": "Upload PDF" if not is_hindi else "PDF अपलोड",
     "paste_here": "Paste the notice here…" if not is_hindi else "नोटिस यहाँ पेस्ट करें…",
     "simplify_btn": "Saral-it" if not is_hindi else "सरल करें",
     "analyse_btn": "Analyse" if not is_hindi else "विश्लेषण",
@@ -112,20 +101,11 @@ labels = {
     "what_wrong": "What can go wrong" if not is_hindi else "क्या गलत हो सकता है",
     "missing": "Missing information" if not is_hindi else "गायब जानकारी",
     "download": "Download" if not is_hindi else "डाउनलोड",
-    "disclaimer": "Based only on the text you provided. Always verify with the original document." if not is_hindi else "केवल आपके दिए पाठ पर आधारित। हमेशा मूल दस्तावेज़ जांचें।",
+    "disclaimer": "Based only on the text you provided. Always check the original document." if not is_hindi else "केवल आपके दिए पाठ पर आधारित। हमेशा मूल दस्तावेज़ जांचें।",
     "output_lang": "Simple Hindi" if is_hindi else "Simple English",
     "ask": "Ask about this notice" if not is_hindi else "इस नोटिस के बारे में पूछें",
     "ask_placeholder": "Ask about dates, documents, or what to do..." if not is_hindi else "तारीख, दस्तावेज़ या क्या करना है पूछें..."
 }
-
-st.caption(labels["subtitle"])
-
-mode = st.radio(
-    "Mode",
-    [labels["mode_saral"], labels["mode_analyse"]],
-    horizontal=True,
-    label_visibility="collapsed"
-)
 
 EXAMPLES = {
     "School Scholarship": """Scholarship Notice
@@ -144,14 +124,6 @@ Eligible farmers can check installment status on the PM-KISAN portal.
 Next installment expected in December 2026.
 Make sure Aadhaar and bank account are linked. Visit nearest CSC or agriculture office for help.""",
 }
-
-with st.expander("Try an example" if not is_hindi else "उदाहरण देखें"):
-    c1, c2, c3 = st.columns(3)
-    for i, (name, txt) in enumerate(EXAMPLES.items()):
-        with [c1, c2, c3][i]:
-            if st.button(name.split()[0], use_container_width=True, key=f"ex{i}"):
-                st.session_state.example = txt
-                st.rerun()
 
 def extract_text_from_pdf(file):
     try:
@@ -235,7 +207,17 @@ Answer:"""
     r = client.models.generate_content(model=MODEL, contents=prompt)
     return r.text.strip()
 
-st.subheader(labels["add_doc"])
+# --- Input Section ---
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
+st.markdown(f'<div class="section-title">{labels["add_doc"]}</div>', unsafe_allow_html=True)
+
+with st.expander("Try an example" if not is_hindi else "उदाहरण देखें"):
+    c1, c2, c3 = st.columns(3)
+    for i, (name, txt) in enumerate(EXAMPLES.items()):
+        with [c1, c2, c3][i]:
+            if st.button(name.split()[0], use_container_width=True, key=f"ex{i}"):
+                st.session_state.example = txt
+                st.rerun()
 
 method = st.radio("Input", [labels["paste"], labels["upload"]], horizontal=True, label_visibility="collapsed")
 
@@ -256,8 +238,12 @@ else:
             st.success("Loaded" if not is_hindi else "लोड हो गया")
 
 if text.strip():
-    st.caption(f"{len(text):,} characters" if not is_hindi else f"{len(text):,} अक्षर")
+    st.caption(f"{len(text):,} characters")
 
+st.markdown('</div>', unsafe_allow_html=True)
+
+# --- Action Buttons ---
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
 b1, b2 = st.columns(2)
 with b1:
     do_saral = st.button(labels["simplify_btn"], type="primary", use_container_width=True, disabled=not text.strip())
@@ -268,6 +254,7 @@ if st.button(labels["reset"], use_container_width=True):
     for k in list(st.session_state.keys()):
         del st.session_state[k]
     st.rerun()
+st.markdown('</div>', unsafe_allow_html=True)
 
 out_lang = labels["output_lang"]
 
@@ -293,27 +280,31 @@ if do_analyse and text.strip():
         except Exception as e:
             st.error(str(e))
 
+# --- Results ---
 if st.session_state.get("mode_result") == "saral" and "simplified" in st.session_state:
-    with st.container(border=True):
-        st.subheader(labels["simplified"])
-        st.markdown(st.session_state.simplified)
-        st.caption(labels["disclaimer"])
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title">{labels["simplified"]}</div>', unsafe_allow_html=True)
+    st.markdown(st.session_state.simplified)
+    st.caption(labels["disclaimer"])
     st.download_button(labels["download"], st.session_state.simplified, "simplified.txt", "text/plain", use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 if st.session_state.get("mode_result") == "analyse" and "analyse_parts" in st.session_state:
     p = st.session_state.analyse_parts
-    with st.container(border=True):
-        st.subheader(labels["what_wrong"])
-        st.warning(p.get("wrong") or "—")
-        st.subheader(labels["missing"])
-        st.info(p.get("missing") or "—")
-        st.caption(labels["disclaimer"])
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title">{labels["what_wrong"]}</div>', unsafe_allow_html=True)
+    st.warning(p.get("wrong") or "—")
+    st.markdown(f'<div class="section-title">{labels["missing"]}</div>', unsafe_allow_html=True)
+    st.info(p.get("missing") or "—")
+    st.caption(labels["disclaimer"])
     dl = f"{labels['what_wrong']}\n{p.get('wrong','')}\n\n{labels['missing']}\n{p.get('missing','')}"
     st.download_button(labels["download"], dl, "analysis.txt", "text/plain", use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
+# --- Chat ---
 if "doc" in st.session_state and st.session_state.get("mode_result"):
-    st.divider()
-    st.subheader(labels["ask"])
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title">{labels["ask"]}</div>', unsafe_allow_html=True)
 
     if "chat" not in st.session_state:
         st.session_state.chat = []
@@ -341,7 +332,7 @@ if "doc" in st.session_state and st.session_state.get("mode_result"):
         st.session_state.chat = []
         st.rerun()
 
-st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 st.divider()
 st.caption("For understanding only · Not official advice" if not is_hindi else "केवल समझने के लिए · आधिकारिक सलाह नहीं")
